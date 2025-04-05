@@ -60,27 +60,31 @@ async function MutiScan(r,ok){
 //u=
 async function scan(){
     await FirstScan();
-    for(let r of u){
-        await MutiScan(r)
-    }
-    w=w.difference(u);
-    u=u.union(w);
-    console.log("USIZE",u.size)
-    console.log("WSIZE",w.size)
-    for(var p=0;p<1;p++){
-        var rp=[];
-        for(let r of w){
-            rp.push(r)
-        }
-        w=new Set();
-        for(var l=0;l<rp.length;l++){
-            await MutiScan(rp[l],l)
+    if(false){
+        for(let r of u){
+            await MutiScan(r)
         }
         w=w.difference(u);
         u=u.union(w);
         console.log("USIZE",u.size)
         console.log("WSIZE",w.size)
+        for(var p=0;p<0;p++){
+            var rp=[];
+            for(let r of w){
+                rp.push(r)
+            }
+            w=new Set();
+            for(var l=0;l<rp.length;l++){
+                await MutiScan(rp[l],l)
+            }
+            w=w.difference(u);
+            u=u.union(w);
+            console.log("USIZE",u.size)
+            console.log("WSIZE",w.size)
+        }
     }
+    console.log("USIZE",u.size)
+    console.log("WSIZE",w.size)
     var g={u:[...u],w:[...w]}
     fs.writeFileSync("BOOK-Multi-Scaned.json",JSON.stringify(g))
 
