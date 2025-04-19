@@ -1,10 +1,11 @@
 import fitz  # PyMuPDF
 import os
-
+import json
+dicter=[]
 def extract_text_and_images(pdf_path, output_folder):
     pdf_document = fitz.open(pdf_path)
-    text_with_image_paths = ""
     for page_num in range(len(pdf_document)):
+        text_with_image_paths = ""
         page = pdf_document.load_page(page_num)
         text = page.get_text("text") 
         text_with_image_paths += text
@@ -21,11 +22,12 @@ def extract_text_and_images(pdf_path, output_folder):
                 img_file.write(image_bytes)
 
             text_with_image_paths += f'<img src="{image_path}"></img>'
+        dicter.append(text_with_image_paths.replace('\n','').replace('\t',''))
 
     pdf_document.close()
-    return text_with_image_paths
+    return json.dumps(dicter,ensure_ascii=False)
 
-pdf_file = "0.pdf" 
+pdf_file = "Processed.pdf" 
 output_folder = "imgs"
 os.makedirs(output_folder, exist_ok=True)
 
